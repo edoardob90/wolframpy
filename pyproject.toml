@@ -10,8 +10,8 @@ readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
 license-files = ["LICENSE"]
-authors = [{ name = "Wolfram Research", email = "support@wolfram.com" }]
-maintainers = [{ name = "Edoardo Baldi" }]
+authors = [{ name = "Wolfram Research" }, { name = "Edoardo Baldi" }]
+maintainers = [{ name = "Edoardo Baldi", email = "edoardob90@gmail.com" }]
 keywords = ["Wolfram Language", "Wolfram Desktop", "Mathematica", "parser", "serializer", "WXF"]
 classifiers = [
     "Programming Language :: Python",

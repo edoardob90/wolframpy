@@ -1,11 +1,12 @@
 # Wolfram Client Library for Python (wolframpy fork)
 
 > [!NOTE]
-> This is a community-maintained fork of Wolfram Research's
+> This is an independent fork of Wolfram Research's MIT-licensed
 > [WolframClientForPython](https://github.com/WolframResearch/WolframClientForPython),
-> forked from version 1.4.1. The import and distribution name are unchanged
-> (`wolframclient`), so `pip install wolframclient` from PyPI still gets the upstream
-> release; install from this repository to get the fork.
+> forked from version 1.4.1. It is **not affiliated with, endorsed by or supported by
+> Wolfram Research**; report problems with this fork here, not to Wolfram. The import and
+> distribution name are unchanged (`wolframclient`), so `pip install wolframclient` from
+> PyPI still gets the upstream release; install from this repository to get the fork.
 
 The Wolfram Client Library provides Wolfram Language integration in Python:
 
@@ -83,9 +84,13 @@ uv run pytest                 # kernel/cloud tests are skipped unless configured
 ```
 
 To run the kernel and cloud tests, see [`tests/README.md`](tests/README.md). Build the
-docs with `docs/build.sh`. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the workflow and
+docs with `docs/build.sh`. See [`CLAUDE.md`](CLAUDE.md) for the workflow and
 [`docs/MODERNIZATION_PLAN.md`](docs/MODERNIZATION_PLAN.md) for the roadmap.
 
 ## License
 
-MIT, see [LICENSE](LICENSE). Original work copyright Wolfram Research.
+MIT, see [LICENSE](LICENSE). Original work copyright 2018 Wolfram Research Inc.;
+modifications copyright 2026 Edoardo Baldi.
+
+Wolfram, Wolfram Language, Wolfram Cloud and Mathematica are trademarks of Wolfram
+Research, Inc. They are used here only to describe what this library interoperates with.

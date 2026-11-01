@@ -29,7 +29,7 @@ project = "Wolfram Client Library for Python"
 
 year = datetime.datetime.now().year
 
-copyright = "%i Wolfram Research. All rights reserved." % year
+copyright = "2018 Wolfram Research Inc.; %i Edoardo Baldi" % year
 author = wolframclient.__author__
 
 # The short X.Y version

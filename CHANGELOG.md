@@ -16,6 +16,8 @@ tooling are new (see `docs/MODERNIZATION_PLAN.md`, Phase 1).
 - Tests moved out of the package to `tests/` and run with pytest; they are no longer
   shipped in the wheel.
 - Ruff replaces black; pre-commit hooks and GitHub Actions CI added.
+- The fork is independent of Wolfram Research: Wolfram support addresses are removed from
+  the package metadata, and `CONTRIBUTING.md` and `PacletInfo.m` are removed.
 
 # Version 1.4.1
 - Serialize `pyarrow.Table` and `RecordBatch` to `Tabular`; pandas `DataFrame` and

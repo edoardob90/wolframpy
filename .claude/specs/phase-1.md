@@ -43,8 +43,11 @@ performance work) except where tooling forces a mechanical change.
   `wolframclient/utils/tests.py`, `cli/commands/{setup,refactor,test}.py`, `scripts/`,
   `docs/deploy.m`, `docs/README.md`, `docs/requirements.txt`, `docs/build_docs.sh`,
   `README.rst` (→ `README.md`), `wolframclient/tests/log/`.
-- **Kept**: `PacletInfo.m` (version synced to `1.4.1`, the last released version;
-  user to confirm in the PR whether the paclet is still deployed). `run.sh` reduced to
+- **Fork identity** (decided with the user before merging #2): the fork is not affiliated
+  with Wolfram Research. `CONTRIBUTING.md` and `PacletInfo.m` (same paclet name as Wolfram's
+  own) are deleted. LICENSE keeps Wolfram's notice verbatim and adds the fork's copyright.
+  README states non-affiliation and the trademarks. Wolfram support emails are removed from
+  the metadata. The docs copyright drops "All rights reserved". `run.sh` is reduced to
   `uv run --module wolframclient "$@"`.
 - **CI**: `.github/workflows/ci.yml` (lint job + test matrix 3.12/3.13/3.14 on ubuntu,
   plus 3.12 on macOS and Windows; `pytest -m "not kernel and not cloud" --cov`),
