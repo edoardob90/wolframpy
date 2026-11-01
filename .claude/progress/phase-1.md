@@ -54,3 +54,4 @@ Final: minor (deferred): `docs/docpages/install.rst` gives no extras guidance fo
 Final: minor (deferred): CHANGELOG omits removal of importable `wolframclient.utils.tests`; "tested on 3.12–3.14" not yet backed by a CI run.
 Final: minor (deferred): Windows CI leg unverified locally.
 Final: Ruling: reviewer's "declined to judge" items (uv.lock contents, PacletInfo.m, CONTRIBUTING legal text, action tags, real kernel/cloud runs, `tool.uv.sources` self-reference, Phase 2 ignores) — lock is tool-verified, action tags were read from GitHub release APIs, kernel tests were run locally against Wolfram 14; PacletInfo and legal text go to the user in the PR — cost if wrong: none beyond what the PR asks.
+Final: Ruling (corrected after first CI run): `astral-sh/setup-uv` publishes no floating major tag, so `@v10` failed to resolve on every job; pinned to `v10.3.3` (checkout@v7 and upload-artifact@v7 do resolve) — cost if wrong: none.
