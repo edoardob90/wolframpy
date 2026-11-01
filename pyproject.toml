@@ -63,7 +63,7 @@ all = [
 path = "wolframclient/about.py"
 
 [tool.hatch.build.targets.sdist]
-exclude = ["/.github", "/.claude", "/docs/_build"]
+exclude = ["/.github", "/.claude", "/CLAUDE.md", "/docs/_build"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["wolframclient"]
