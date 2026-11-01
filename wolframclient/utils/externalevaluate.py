@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import datetime
 import decimal
 import fractions
@@ -18,13 +16,12 @@ from wolframclient.language.expression import WLFunction, WLSymbol
 from wolframclient.language.side_effects import side_effect_logger
 from wolframclient.serializers import export
 from wolframclient.utils import six
-from wolframclient.utils.api import ast, zmq, pyarrow
+from wolframclient.utils.api import ast, pyarrow, zmq
 from wolframclient.utils.api import timezone as tz
 from wolframclient.utils.datastructures import Settings
 from wolframclient.utils.encoding import force_text
 from wolframclient.utils.functional import first, iterate, last
 from wolframclient.utils.legacy import set_legacy_mode
-
 
 """
 
@@ -118,10 +115,22 @@ def _serialize_external_object_meta(o):
         if module:
             yield "Module", force_text(module.__name__)
 
-    yield "IsClass", inspect.isclass(o),
-    yield "IsFunction", inspect.isfunction(o),
-    yield "IsMethod", inspect.ismethod(o),
-    yield "IsCallable", callable(o),
+    yield (
+        "IsClass",
+        inspect.isclass(o),
+    )
+    yield (
+        "IsFunction",
+        inspect.isfunction(o),
+    )
+    yield (
+        "IsMethod",
+        inspect.ismethod(o),
+    )
+    yield (
+        "IsCallable",
+        callable(o),
+    )
 
 
 def to_external_object(instance, objects_registry, force_externalobject=False):
@@ -180,7 +189,6 @@ def unpack_optionals(args, symbol=wl.Rule):
 
 
 class registry(dict):
-
     def register_function(self, func):
         self[func.__name__] = func
         return func
@@ -209,7 +217,7 @@ def Eval(consumer, code, constants={}):
             code,
             filename="<unknown>",
             mode="exec",
-            flags=ast.PyCF_ONLY_AST | unicode_literals.compiler_flag,
+            flags=ast.PyCF_ONLY_AST,
         ).body
     )
 

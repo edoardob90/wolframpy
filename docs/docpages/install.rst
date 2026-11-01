@@ -13,7 +13,7 @@ The library source code is available in various repositories:
 Prerequisites
 ===============
 
-    - Python 3.5 or higher
+    - Python 3.12 or higher
     - Wolfram Language 11.3 or higher
     - Git (optional)
 

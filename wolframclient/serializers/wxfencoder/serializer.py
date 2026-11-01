@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 from wolframclient.serializers.wxfencoder.constants import (
     WXF_HEADER_COMPRESS,
     WXF_HEADER_SEPARATOR,

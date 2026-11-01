@@ -1,3 +1,47 @@
+# Unreleased (1.5.0.dev0)
+
+First release of the `wolframpy` fork. Library behaviour is unchanged; packaging and
+tooling are new (see `docs/MODERNIZATION_PLAN.md`, Phase 1).
+
+- Require Python 3.12 or newer; tested on 3.12, 3.13 and 3.14.
+- Packaging moved to `pyproject.toml` (hatchling) with a committed `uv.lock`;
+  `setup.py`, `setup.cfg` and `MANIFEST.in` are gone.
+- Runtime dependencies reduced to `numpy` and `certifi`. Feature dependencies are now
+  extras: `kernel` (pyzmq, oauthlib), `cloud` (requests, oauthlib), `async` (aiohttp),
+  `pandas` (pandas, pyarrow), `pillow` (Pillow), `all`. **Breaking for installs that
+  relied on the old implicit dependencies:** install `wolframclient[all]` to get them
+  back. `pytz` is no longer installed.
+- New `wolframclient` console script (same as `python -m wolframclient`). The `test`,
+  `refactor` and `setup` commands were removed; use `pytest` and `ruff`.
+- Tests moved out of the package to `tests/` and run with pytest; they are no longer
+  shipped in the wheel.
+- Ruff replaces black; pre-commit hooks and GitHub Actions CI added.
+- The fork is independent of Wolfram Research: Wolfram support addresses are removed from
+  the package metadata, and `CONTRIBUTING.md` and `PacletInfo.m` are removed.
+
+# Version 1.4.1
+- Serialize `pyarrow.Table` and `RecordBatch` to `Tabular`; pandas `DataFrame` and
+  `Series` are serialized through Arrow IPC.
+- Add an encoder for astropy quantities.
+- Add `numpy.intc` and `numpy.uintc` to the supported NumPy data types.
+- ExternalEvaluate: split very large messages, fix a file-descriptor leak.
+- Replace `pkg_resources` usage.
+
+# Version 1.4.0
+- ExternalEvaluate: support `DelReference` and better error reporting.
+
+# Version 1.3.0
+- Serialize `zoneinfo` time zones, dates, times, rationals and complex numbers in
+  ExternalEvaluate results.
+- Unify packed array and numeric array serialization; fix bytes and PIL image
+  serialization.
+- Drop the `EXPORT_KWARGS` setting.
+
+# Version 1.2.0
+- ExternalEvaluate: support `ExternalEvaluateCommand`, returning functions and
+  `ExternalObject`s, registering functions, globals handling and censoring of
+  sensitive variables in tracebacks.
+
 # Version 1.1.10
 - fix for https://github.com/WolframResearch/WolframWebEngineForPython/issues/10
 
@@ -10,7 +54,7 @@
 - fix various deprecated naming convention in class names.
 
 # Version 1.1.4
-- Async cloud evaluator based on `aiohttp` now use `certifi` to create a default `SSLContext` if none is provided. Other cloud evaluator are based on the `requests` module which also uses this library. 
+- Async cloud evaluator based on `aiohttp` now use `certifi` to create a default `SSLContext` if none is provided. Other cloud evaluator are based on the `requests` module which also uses this library.
 - Updating dependency list accordingly in `setup.py`. `certifi` was already listed as a `requests` dependency, so this should have no direct impact on user site package.
 
 # Version 1.1.3
@@ -25,7 +69,7 @@
 - WXF deserialization maps `List` to `tuple`, was `list` before for two reasons. `List` and tuple are immutable. `tuple` contrary to `list` are hashable object and as such can be keys in `dict`.
 - WXF deserialization maps numeric arrays to `NumPy` arrays. Numpy being a pre-requisite of the library, and lazily loaded, this change will boost performances while causing very little trouble, if any.
 - Fix bug in `WolframLanguageSession` that was preventing Python interpreter from exiting.
-- Add new class `PackedArray`, a wrapper on top of NumPy `ndarray`. Instances of `PackedArray` are serialized as... WL packed array (!). This fixes the issue of having a WL packed array (say the output of `Range[3]`), being serialized to a `ndarray` (`arange(3)`), and send back to the kernel as a `NumericArray`. 
+- Add new class `PackedArray`, a wrapper on top of NumPy `ndarray`. Instances of `PackedArray` are serialized as... WL packed array (!). This fixes the issue of having a WL packed array (say the output of `Range[3]`), being serialized to a `ndarray` (`arange(3)`), and send back to the kernel as a `NumericArray`.
 - Use `black` code formatter.
 
 # Version 1.0.2

@@ -89,7 +89,7 @@ Python generators are also serialized as :wl:`List`::
     >>> def gen():
     ...     yield 1
     ...     yield 2
-    ... 
+    ...
     >>> export(gen())
     '{1, 2}'
 
@@ -176,7 +176,7 @@ Define a normalizer function::
 
     from wolframclient.language import wl
     from wolframclient.serializers import export
-    
+
     def normalizer(o):
         if isinstance(o, MyPythonClass):
             return wl.MyWolframFunction(*o.arguments)
@@ -275,4 +275,3 @@ Exceptions
 .. autoclass:: wolframclient.exception.SocketException
     :noindex:
     :members:
-

@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 from functools import wraps
 
 from wolframclient.utils.datastructures import Association

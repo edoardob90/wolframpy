@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 from wolframclient.language.exceptions import WolframLanguageException
 from wolframclient.utils.logger import str_trim
 

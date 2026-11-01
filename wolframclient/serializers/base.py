@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import datetime
 import re
 from itertools import chain
@@ -129,9 +127,7 @@ class FormatSerializer(Encoder):
             )
 
         if name_match:
-
             for name in (tzinfo.tzname(None), _is_zoneinfo(tzinfo) and tzinfo.key or None):
-
                 if name and name_match.match(name):
                     return self.serialize_string(name)
 

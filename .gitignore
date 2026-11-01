@@ -4,7 +4,6 @@ __pycache__
 /build
 /dist
 *.egg-info
-wolframclient/tests/local_config.json
 /htmlcov
 .coverage
 .vscode
@@ -12,3 +11,10 @@ wolframclient/tests/local_config.json
 /test-reports
 .DS_Store
 /env
+.venv
+.ruff_cache
+.pytest_cache
+.mypy_cache
+/docs/_build
+/docs/api
+tests/local_config.json

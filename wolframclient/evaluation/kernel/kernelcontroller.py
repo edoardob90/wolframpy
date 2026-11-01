@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import logging
 from concurrent import futures
 from itertools import count as _count
@@ -119,7 +117,6 @@ class WolframKernelController(Thread):
         self.kernel = kernel or self.default_kernel_path()
 
         if self.kernel:
-
             if not os.isfile(self.kernel):
                 raise WolframKernelException("Kernel not found at %s." % self.kernel)
 

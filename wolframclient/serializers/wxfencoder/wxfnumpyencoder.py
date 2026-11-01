@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 from wolframclient.serializers.wxfencoder.constants import ARRAY_TYPES
 from wolframclient.serializers.wxfencoder.wxfencoder import WXFEncoder
 from wolframclient.serializers.wxfencoder.wxfexpr import (

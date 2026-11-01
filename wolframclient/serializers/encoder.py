@@ -1,7 +1,5 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import logging
-import sys, os
+import sys
 from collections import defaultdict
 from functools import partial
 

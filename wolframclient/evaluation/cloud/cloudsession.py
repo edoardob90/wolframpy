@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import logging
 
 from wolframclient.evaluation.base import WolframEvaluator
@@ -302,16 +300,20 @@ class WolframAPICall(WolframAPICallBase):
 @to_dict
 def _encode_inputs_as_wxf(inputs, multipart, **kwargs):
     for name, value in inputs.items():
-        yield "%s__wxf" % name, _to_multipart(
-            name, export(value, target_format="wxf", **kwargs), multipart=multipart
+        yield (
+            "%s__wxf" % name,
+            _to_multipart(
+                name, export(value, target_format="wxf", **kwargs), multipart=multipart
+            ),
         )
 
 
 @to_dict
 def _encode_inputs_as_json(inputs, multipart, **kwargs):
     for name, value in inputs.items():
-        yield "%s__json" % name, _to_multipart(
-            name, json.dumps(value, **kwargs), multipart=multipart
+        yield (
+            "%s__json" % name,
+            _to_multipart(name, json.dumps(value, **kwargs), multipart=multipart),
         )
 
 
@@ -322,8 +324,11 @@ def _encode_inputs_as_wl(inputs, multipart, **kwargs):
         if isinstance(value, six.string_types):
             yield name, _to_multipart(name, value, multipart=multipart)
         else:
-            yield name, _to_multipart(
-                name, export(value, target_format="wl", **kwargs), multipart=multipart
+            yield (
+                name,
+                _to_multipart(
+                    name, export(value, target_format="wl", **kwargs), multipart=multipart
+                ),
             )
 
 

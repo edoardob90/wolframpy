@@ -35,7 +35,7 @@ On the other hand, in the :wl:`WXF` format, expressions are represented with the
 
 The method :meth:`~wolframclient.evaluation.kernel.localsession.WolframLanguageSession.evaluate` accepts two types of input:
 
-* Python strings are treated as a string :wl:`InputForm`; as such, context is resolved during evaluation. User-defined functions are most of the time automatically created with the ``Global``` context. 
+* Python strings are treated as a string :wl:`InputForm`; as such, context is resolved during evaluation. User-defined functions are most of the time automatically created with the ``Global``` context.
 * Serializable Python objects are serialized to WXF before evaluation; as such, context must be explicitly specified, except for ``System``` symbols.
 
 System Context
@@ -45,7 +45,7 @@ In order to explicitly represent a system symbol in Python, the factory :data:`~
 
     >>> from wolframclient.language import System
 
-Create a Python object representing the built-in function :wl:`Classify`::    
+Create a Python object representing the built-in function :wl:`Classify`::
 
     >>> System.Classify
     System`Classify
@@ -83,6 +83,7 @@ Use Cases
 Create a new function :data:`max` that takes a list of strings and returns the longer ones. The function definition is:
 
 .. code-block :: wl
+    :force:
 
     max[s:List[__String]] := MaximalBy[s, StringLength]
 
@@ -182,7 +183,7 @@ Wrap an artificially long evaluation to last at most one second::
 Evaluate the time-constrained expression::
 
     >>> result = session.evaluate(timeconstrained_eval)
-    
+
 Check if the result is :wl:`$Aborted`::
 
     >>> result.name == '$Aborted'
@@ -192,12 +193,12 @@ Terminate the session::
 
     >>> session.terminate()
 
-Concurrent Future 
+Concurrent Future
 ^^^^^^^^^^^^^^^^^^
 
 Sometimes, the result is not required immediately. Asynchronous evaluation is a way to start evaluations on a local kernel as a background task, without blocking the main Python execution. Asynchronous evaluation methods are :func:`~wolframclient.evaluation.WolframLanguageSession.evaluate_future`, :func:`~wolframclient.evaluation.WolframLanguageSession.evaluate_wrap_future` and :func:`~wolframclient.evaluation.WolframLanguageSession.evaluate_wxf_future`. They wrapped the evaluation result into a :class:`~concurrent.futures.Future` object. Result is the one that would be returned by the non-future method (e.g :func:`~wolframclient.evaluation.WolframLanguageSession.evaluate_future` returns the result of :func:`~wolframclient.evaluation.WolframLanguageSession.evaluate`).
 
-Evaluate an artificially delayed code (using :wl:`Pause`), and print the time elapsed at each step:  
+Evaluate an artificially delayed code (using :wl:`Pause`), and print the time elapsed at each step:
 
 .. literalinclude:: /examples/python/asynchronous1.py
     :linenos:
@@ -269,9 +270,9 @@ It is possible to evaluate many expressions at once using :func:`~wolframclient.
 Import the function::
 
     >>> from wolframclient.evaluation import parallel_evaluate
-    
+
 Build a list of ten delayed :wl:`$ProcessID` expressions, which returns the kernel process identified (`pid`) after one second::
-    
+
     >>> expressions = ['Pause[1]; $ProcessID' for _ in range(10)]
 
 Evaluate in parallel and get back a list of ten `pid` values::
@@ -302,9 +303,9 @@ The standard output should display:
     INFO:wolframclient.evaluation.kernel.kernelcontroller:Kernel process started with PID: 54259
     INFO:wolframclient.evaluation.kernel.kernelcontroller:Kernel 54259 is ready. Startup took 1.74 seconds.
 
-It is also possible to log from within the kernel. This feature is disabled by default. When initializing a :class:`~wolframclient.evaluation.WolframLanguageSession`, the parameter `kernel_loglevel` can be specified with one of the following values to activate kernel logging: :class:`logging.DEBUG`, :class:`logging.INFO`, :class:`logging.WARNING`, :class:`logging.ERROR`. 
+It is also possible to log from within the kernel. This feature is disabled by default. When initializing a :class:`~wolframclient.evaluation.WolframLanguageSession`, the parameter `kernel_loglevel` can be specified with one of the following values to activate kernel logging: :class:`logging.DEBUG`, :class:`logging.INFO`, :class:`logging.WARNING`, :class:`logging.ERROR`.
 
-.. note :: 
+.. note ::
 
     if a :class:`~wolframclient.evaluation.WolframLanguageSession` is initialized with the default `kernel_loglevel` (i.e. :class:`logging.NOTSET`), kernel logging is disable for the session, and it is not possible to activate it afterward.
 
@@ -352,14 +353,14 @@ Register a new encoder for a user-defined class:
 
 During export, for each object to serialize, the proper encoder is found by inspecting the type hierarchy (field :data:`__mro__`). First, check that an encoder is associated with the object type; if not, repeat with the first parent type until one is found. The default encoder, associated with :data:`object`, is used as the last resort.
 
-Register some encoders for a hierarchy of classes: 
+Register some encoders for a hierarchy of classes:
 
 .. literalinclude:: /examples/python/encoder2.py
     :linenos:
     :emphasize-lines: 5,8,11,15,19,24,29,35-36
 
 Note: the encoder for :data:`Animal` is never used, not even for the instance of :data:`Salmon`, because :data:`Fish` has a dedicated encoder, and type :data:`Fish` appears first in the method resolution order of type :data:`Salmon`::
-    
+
     >>> Salmon.__mro__
     (<class '__main__.Salmon'>, <class '__main__.Fish'>, <class '__main__.Animal'>, <class 'object'>)
 

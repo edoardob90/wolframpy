@@ -1,17 +1,9 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 from collections import OrderedDict
-from itertools import starmap
-import os
-from wolframclient.language import wl
-from wolframclient.utils.datastructures import Settings
-from wolframclient.utils.dispatch import Dispatch
-from wolframclient.utils.functional import composition, identity
-from wolframclient.utils.legacy import is_legacy_mode
+
 from wolframclient.serializers import export
 from wolframclient.utils.api import pandas, pyarrow
-from wolframclient.serializers import export
-
+from wolframclient.utils.dispatch import Dispatch
+from wolframclient.utils.legacy import is_legacy_mode
 
 index_formatter = lambda number: "Index{}".format(number + 1)
 column_formatter = lambda number: "Column{}".format(number + 1)
