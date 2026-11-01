@@ -12,3 +12,7 @@ Ruling: this file is the executing-plans ledger (instead of `.superpowers/sdd/`)
 Ruling: GitHub sub-issues not created; Phase 1 fits one PR and the plan already scopes this branch to Phase 1 — cost if wrong: Phases 2–4 get sub-issues later.
 
 Task 0: complete (workflow docs; no tests)
+Task 1: Ruling: `certifi` lower bound kept at `>=2017.4.17` (setup.py's floor) instead of the `>=2026.10.23` uv added by default — a library should not force a this-week certifi — cost if wrong: none.
+Task 1: Ruling: `pytz` added to the dev group temporarily so the unchanged tests run; removed in Task 2 with the `zoneinfo` switch — cost if wrong: none.
+Task 1: Ruling: `README.rst` stays as `readme` until Task 5 converts it — cost if wrong: none.
+Task 1: complete (commits e813292..d9bbff7, tests: uv run python -m wolframclient test → 294 run, errors=15, skipped=105, identical to baseline)

@@ -1,0 +1,93 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "wolframclient"
+dynamic = ["version"]
+description = "A Python library with various tools to interact with the Wolfram Language and the Wolfram Cloud."
+readme = "README.rst"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Wolfram Research", email = "support@wolfram.com" }]
+maintainers = [{ name = "Edoardo Baldi" }]
+keywords = ["Wolfram Language", "Wolfram Desktop", "Mathematica", "parser", "serializer", "WXF"]
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "certifi>=2017.4.17",
+    "numpy>=1.26",
+]
+
+[project.urls]
+Homepage = "https://github.com/edoardob90/wolframpy"
+Source = "https://github.com/edoardob90/wolframpy"
+Issues = "https://github.com/edoardob90/wolframpy/issues"
+Changelog = "https://github.com/edoardob90/wolframpy/blob/main/CHANGELOG.md"
+Upstream = "https://github.com/WolframResearch/WolframClientForPython"
+
+[project.scripts]
+wolframclient = "wolframclient.cli.dispatch:execute_from_command_line"
+
+[project.optional-dependencies]
+kernel = [
+    "pyzmq>=25",
+]
+cloud = [
+    "oauthlib>=3.2",
+    "requests>=2.31",
+]
+async = [
+    "aiohttp>=3.9",
+]
+pandas = [
+    "pandas>=2.1",
+    "pyarrow>=14",
+]
+pillow = [
+    "pillow>=10",
+]
+all = [
+    "wolframclient[async,cloud,kernel,pandas,pillow]",
+]
+
+[tool.hatch.version]
+path = "wolframclient/about.py"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/.github", "/.claude", "/docs/_build"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["wolframclient"]
+exclude = ["wolframclient/tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["wolframclient"]
+omit = ["wolframclient/cli/*"]
+
+[tool.uv.sources]
+wolframclient = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.1",
+    "pre-commit>=4.7.0",
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.4.1.post1",
+    "pytest-cov>=7.1.0",
+    "pytz>=2026.6",
+    "ruff>=0.17.3",
+]
+docs = [
+    "pygments-mathematica>=0.4.2",
+    "sphinx>=7.3",
+]
