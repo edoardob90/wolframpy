@@ -7,7 +7,7 @@ tooling are new (see `docs/MODERNIZATION_PLAN.md`, Phase 1).
 - Packaging moved to `pyproject.toml` (hatchling) with a committed `uv.lock`;
   `setup.py`, `setup.cfg` and `MANIFEST.in` are gone.
 - Runtime dependencies reduced to `numpy` and `certifi`. Feature dependencies are now
-  extras: `kernel` (pyzmq), `cloud` (requests, oauthlib), `async` (aiohttp),
+  extras: `kernel` (pyzmq, oauthlib), `cloud` (requests, oauthlib), `async` (aiohttp),
   `pandas` (pandas, pyarrow), `pillow` (Pillow), `all`. **Breaking for installs that
   relied on the old implicit dependencies:** install `wolframclient[all]` to get them
   back. `pytz` is no longer installed.

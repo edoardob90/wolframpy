@@ -39,6 +39,7 @@ wolframclient = "wolframclient.cli.dispatch:execute_from_command_line"
 
 [project.optional-dependencies]
 kernel = [
+    "oauthlib>=3.2",
     "pyzmq>=25",
 ]
 cloud = [

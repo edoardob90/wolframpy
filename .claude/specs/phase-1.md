@@ -15,7 +15,7 @@ performance work) except where tooling forces a mechanical change.
 - **Names**: import and distribution name stay `wolframclient`. README states it is a fork.
 - **Build backend**: hatchling; version is dynamic from `wolframclient/about.py`
   (`[tool.hatch.version] path`). Version bumps to `1.5.0.dev0`.
-- **Dependencies**: core `numpy>=1.26`, `certifi`. Extras: `kernel = pyzmq>=25`,
+- **Dependencies**: core `numpy>=1.26`, `certifi`. Extras: `kernel = pyzmq>=25, oauthlib>=3.2` (oauthlib because `wolframclient.evaluation` imports the cloud modules eagerly; corrected after final review),
   `cloud = requests>=2.31, oauthlib>=3.2`, `async = aiohttp>=3.9`,
   `pandas = pandas>=2.1, pyarrow>=14`, `pillow = Pillow>=10`, `all` = union.
   `pytz` dropped from runtime deps; tests use `zoneinfo`. (`utils/api.py` keeps its lazy

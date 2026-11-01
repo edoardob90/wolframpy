@@ -16,6 +16,8 @@ repos:
       - id: ruff-check
         args: [--fix]
       - id: ruff-format
+        # match `ruff format --check` in CI, which also formats code in Markdown
+        types_or: [python, pyi, jupyter, markdown]
   - repo: https://github.com/astral-sh/uv-pre-commit
     rev: 0.13.6
     hooks:

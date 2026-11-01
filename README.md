@@ -35,7 +35,7 @@ Optional features are extras:
 
 | Extra | Enables | Installs |
 |---|---|---|
-| `kernel` | local kernel sessions, ExternalEvaluate | `pyzmq` |
+| `kernel` | local kernel sessions, ExternalEvaluate | `pyzmq`, `oauthlib` |
 | `cloud` | Wolfram Cloud sessions and API calls | `requests`, `oauthlib` |
 | `async` | asynchronous cloud sessions | `aiohttp` |
 | `pandas` | pandas and Arrow serialization | `pandas`, `pyarrow` |
@@ -67,7 +67,7 @@ from wolframclient.evaluation import WolframLanguageSession
 # WolframLanguageSession("/Applications/Wolfram.app/Contents/MacOS/WolframKernel")
 with WolframLanguageSession() as session:
     session.evaluate(wl.StringReverse("abc"))  # 'cba'
-    session.evaluate(wlexpr("Range[5]"))       # packed array, NumPy-backed: [1 2 3 4 5]
+    session.evaluate(wlexpr("Range[5]"))  # packed array, NumPy-backed: [1 2 3 4 5]
 ```
 
 The upstream [documentation](https://reference.wolfram.com/language/WolframClientForPython)
