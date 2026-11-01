@@ -9,6 +9,7 @@
 
 
 import datetime
+import importlib.metadata
 import os
 import sys
 
@@ -18,8 +19,9 @@ import wolframclient
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
-sys.path.insert(0, os.path.abspath(".."))
-sys.path.insert(0, os.path.abspath("roles"))
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(HERE, ".."))
+sys.path.insert(0, HERE)  # for the local `roles` extension
 
 # -- Project information -----------------------------------------------------
 
@@ -31,9 +33,9 @@ copyright = "%i Wolfram Research. All rights reserved." % year
 author = wolframclient.__author__
 
 # The short X.Y version
-version = wolframclient.__version__
+version = ".".join(importlib.metadata.version("wolframclient").split(".")[:2])
 # The full version, including alpha/beta/rc tags
-release = wolframclient.__version__
+release = importlib.metadata.version("wolframclient")
 
 
 # -- General configuration ---------------------------------------------------
@@ -73,7 +75,7 @@ master_doc = "index"
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

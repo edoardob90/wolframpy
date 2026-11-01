@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "wolframclient"
 dynamic = ["version"]
 description = "A Python library with various tools to interact with the Wolfram Language and the Wolfram Cloud."
-readme = "README.rst"
+readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -98,13 +98,14 @@ dev = [
 ]
 docs = [
     "pygments-mathematica>=0.4.2",
-    "sphinx>=7.3",
+    "sphinx>=7.3,<8",
 ]
 
 [tool.ruff]
 line-length = 95
 target-version = "py312"
-extend-exclude = ["docs/roles", "docs/wri_theme"]
+# docs/examples are included in the docs by line number (emphasize-lines): never reformat.
+extend-exclude = ["docs/examples", "docs/wri_theme"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]

@@ -1,4 +1,4 @@
-exclude: ^(tests/data/|docs/wri_theme/)
+exclude: ^(tests/data/|docs/wri_theme/|docs/examples/)
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0

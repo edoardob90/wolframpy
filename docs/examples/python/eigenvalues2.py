@@ -1,11 +1,10 @@
-from wolframclient.deserializers import WXFConsumer, binary_deserialize
 from wolframclient.evaluation import WolframLanguageSession
 from wolframclient.language import wl
-
+from wolframclient.deserializers import WXFConsumer, binary_deserialize
 
 class ComplexFunctionConsumer(WXFConsumer):
     """Implement a consumer that maps Complex to python complex types."""
-
+    
     # represent the symbol Complex as a Python class
     Complex = wl.Complex
 
@@ -17,13 +16,17 @@ class ComplexFunctionConsumer(WXFConsumer):
         else:
             return super().build_function(head, args, **kwargs)
 
-
 with WolframLanguageSession() as session:
-    array = [[0, -2, 0], [1, 0, -1], [0, 2, 0]]
+    array = [
+        [0, -2, 0], 
+        [1, 0, -1], 
+        [0, 2, 0]]
     # expression to evaluate
     expr = wl.Eigenvalues(array)
     # send expression to the kernel for evaluation.
     wxf = session.evaluate_wxf(expr)
     # get the WXF bytes and parse them using the complex consumer:
-    complex_result = binary_deserialize(wxf, consumer=ComplexFunctionConsumer())
+    complex_result = binary_deserialize(
+        wxf, 
+        consumer=ComplexFunctionConsumer())
     print(complex_result)  # [2j, -2j, 0]

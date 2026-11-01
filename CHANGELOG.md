@@ -1,3 +1,45 @@
+# Unreleased (1.5.0.dev0)
+
+First release of the `wolframpy` fork. Library behaviour is unchanged; packaging and
+tooling are new (see `docs/MODERNIZATION_PLAN.md`, Phase 1).
+
+- Require Python 3.12 or newer; tested on 3.12, 3.13 and 3.14.
+- Packaging moved to `pyproject.toml` (hatchling) with a committed `uv.lock`;
+  `setup.py`, `setup.cfg` and `MANIFEST.in` are gone.
+- Runtime dependencies reduced to `numpy` and `certifi`. Feature dependencies are now
+  extras: `kernel` (pyzmq), `cloud` (requests, oauthlib), `async` (aiohttp),
+  `pandas` (pandas, pyarrow), `pillow` (Pillow), `all`. **Breaking for installs that
+  relied on the old implicit dependencies:** install `wolframclient[all]` to get them
+  back. `pytz` is no longer installed.
+- New `wolframclient` console script (same as `python -m wolframclient`). The `test`,
+  `refactor` and `setup` commands were removed; use `pytest` and `ruff`.
+- Tests moved out of the package to `tests/` and run with pytest; they are no longer
+  shipped in the wheel.
+- Ruff replaces black; pre-commit hooks and GitHub Actions CI added.
+
+# Version 1.4.1
+- Serialize `pyarrow.Table` and `RecordBatch` to `Tabular`; pandas `DataFrame` and
+  `Series` are serialized through Arrow IPC.
+- Add an encoder for astropy quantities.
+- Add `numpy.intc` and `numpy.uintc` to the supported NumPy data types.
+- ExternalEvaluate: split very large messages, fix a file-descriptor leak.
+- Replace `pkg_resources` usage.
+
+# Version 1.4.0
+- ExternalEvaluate: support `DelReference` and better error reporting.
+
+# Version 1.3.0
+- Serialize `zoneinfo` time zones, dates, times, rationals and complex numbers in
+  ExternalEvaluate results.
+- Unify packed array and numeric array serialization; fix bytes and PIL image
+  serialization.
+- Drop the `EXPORT_KWARGS` setting.
+
+# Version 1.2.0
+- ExternalEvaluate: support `ExternalEvaluateCommand`, returning functions and
+  `ExternalObject`s, registering functions, globals handling and censoring of
+  sensitive variables in tracebacks.
+
 # Version 1.1.10
 - fix for https://github.com/WolframResearch/WolframWebEngineForPython/issues/10
 

@@ -83,6 +83,7 @@ Use Cases
 Create a new function :data:`max` that takes a list of strings and returns the longer ones. The function definition is:
 
 .. code-block :: wl
+    :force:
 
     max[s:List[__String]] := MaximalBy[s, StringLength]
 

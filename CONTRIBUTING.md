@@ -1,5 +1,11 @@
 # Contributing to Wolfram<sup>&reg;</sup>
 
+> [!NOTE]
+> This repository is the `wolframpy` fork. Report bugs and send pull requests for the
+> fork to [edoardob90/wolframpy](https://github.com/edoardob90/wolframpy/issues); the
+> development workflow is at the end of this file. The sections below are inherited
+> from upstream Wolfram Research.
+
 Thank you for taking the time to contribute to the [Wolfram Research](https://github.com/wolframresearch) repos on GitHub.
 
 ## Licensing of Contributions
@@ -38,3 +44,24 @@ When reporting issues, always include:
 
 * Your version of *Mathematica*<sup>&reg;</sup> or the Wolfram Language<sup>&trade;</sup>.
 * Your operating system.
+
+## Development workflow
+
+This fork is developed with [uv](https://docs.astral.sh/uv/).
+
+```bash
+uv sync --all-extras          # install the package, all extras and the dev group
+uv run pre-commit install     # ruff check + format, uv.lock check, whitespace
+uv run pytest                 # tests; kernel/cloud tests auto-skip without config
+uv run ruff check && uv run ruff format --check
+docs/build.sh                 # HTML docs into docs/_build/html
+```
+
+- Add or change dependencies only through uv (`uv add`, `uv add --optional <extra>`,
+  `uv add --group <group>`, `uv remove`); never edit `uv.lock` by hand.
+- Tests live in `tests/` and are named `test_*.py`. Mark tests that need a local kernel
+  with `pytest.mark.kernel` and those that need Wolfram Cloud credentials with
+  `pytest.mark.cloud`; see `tests/README.md` to run them.
+- Every bug fix starts with a test that fails without the fix.
+- Larger changes follow the plan → tracking issue → PR workflow described in
+  [`CLAUDE.md`](CLAUDE.md).
