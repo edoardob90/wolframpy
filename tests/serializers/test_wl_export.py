@@ -7,7 +7,7 @@ from wolframclient.language import wl
 from wolframclient.serializers import available_formats, export
 from wolframclient.utils import six
 from wolframclient.utils.functional import identity
-from wolframclient.utils.tests import TestCase as BaseTestCase
+from unittest import TestCase as BaseTestCase
 
 
 class TestCase(BaseTestCase):

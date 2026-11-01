@@ -16,11 +16,10 @@ from wolframclient.serializers.wxfencoder.wxfexpr import (
     WXFExprString,
 )
 from wolframclient.serializers.wxfencoder.wxfexprprovider import WXFExprProvider
-from wolframclient.tests.configure import skip_for_jython
 from wolframclient.utils import six
 from wolframclient.utils.datastructures import Association
-from wolframclient.utils.tests import TestCase as BaseTestCase
-from wolframclient.utils.tests import path_to_file_in_data_dir
+from unittest import TestCase as BaseTestCase
+from tests.configure import path_to_file_in_data_dir
 
 
 def init(compress=False, enforce=True):
@@ -119,12 +118,10 @@ class TestCase(SerializeTest):
 
     def test_max_3bytes_unicode(self):
         max = (1 << 16) - 1
-        value = unichr(max) if six.PY2 else chr(max)
+        value = chr(max)
         wxf = b"\x38\x3a\x53\x03\xef\xbf\xbf"
         self.serialize_compare(value, wxf)
 
-    # Different surrogate handling in Jython.
-    @skip_for_jython
     def test_high_surrogates(self):
         values = [0xD800, 0xDB7F, 0xDC00, 0xDFFF]
         wxf_outs = [
@@ -133,20 +130,15 @@ class TestCase(SerializeTest):
             b"\x38\x3a\x53\x03\xed\xb0\x80",
             b"\x38\x3a\x53\x03\xed\xbf\xbf",
         ]
-        # PY2 does not care about high surrogate, so does the WL.
-        # PY3 on the other hand raises exception when it encounters one.
+        # Python raises when it encounters a lone surrogate.
         for val, wxf in zip(values, wxf_outs):
-            if six.PY2:
-                self.serialize_compare(unichr(val), wxf)
-            else:
-                with self.assertRaises(UnicodeEncodeError):
-                    self.serialize_compare(chr(val), wxf)
+            with self.assertRaises(UnicodeEncodeError):
+                self.serialize_compare(chr(val), wxf)
 
     ### INTEGER TESTS
     """ Mostly useful for Python 2.7. Otherwise we test int.to_bytes.
     """
 
-    @skip_for_jython
     def test_int8(self):
         values = [0, 1, 127, -1, -128]
         res = [0, 1, 127, 255, 128]
@@ -154,7 +146,6 @@ class TestCase(SerializeTest):
             wxf_expr = WXFExprInteger(values[i])
             self.assertEqual(wxf_expr.to_bytes()[0], res[i])
 
-    @skip_for_jython
     def test_int16(self):
         values = [-(1 << 15), (1 << 15) - 1]
         res = [(0x00, 0x80), (0xFF, 0x7F)]
@@ -162,7 +153,6 @@ class TestCase(SerializeTest):
             wxf_expr = WXFExprInteger(values[i])
             self.assertSequenceEqual(wxf_expr.to_bytes(), res[i])
 
-    @skip_for_jython
     def test_int32(self):
         values = [-(1 << 31), (1 << 31) - 1]
         res = [(0x00, 0x00, 0x00, 0x80), (0xFF, 0xFF, 0xFF, 0x7F)]
@@ -170,7 +160,6 @@ class TestCase(SerializeTest):
             wxf_expr = WXFExprInteger(values[i])
             self.assertSequenceEqual(wxf_expr.to_bytes(), res[i])
 
-    @skip_for_jython
     def test_int64(self):
         values = [-(1 << 63), (1 << 63) - 1]
         res = [
@@ -181,7 +170,6 @@ class TestCase(SerializeTest):
             wxf_expr = WXFExprInteger(values[i])
             self.assertSequenceEqual(wxf_expr.to_bytes(), res[i])
 
-    @skip_for_jython
     def test_bigint_as_int(self):
         value = 10**20
         with self.assertRaises(ValueError):
@@ -250,14 +238,6 @@ class TestCase(SerializeTest):
         wxf = b"8:A\x03-C\x00S\x01a-C\x01S\x01b-C\x02S\x01c"
         self.serialize_compare(value, wxf, enforce=False)
 
-    @unittest.skipIf(not six.PY2, "Python2 str test skipped.")
-    def test_all_str_py2(self):
-        str_all_chr = b"".join([chr(i) for i in range(256)])
-        wxf = export(str_all_chr, target_format="wxf")
-        with open(path_to_file_in_data_dir("allbytes.wxf"), "rb") as r_file:
-            res = bytearray(r_file.read())
-        self.assertSequenceEqual(res, wxf)
-
     ### MIXED TESTS
 
     def test_all_char(self):
@@ -268,10 +248,7 @@ class TestCase(SerializeTest):
         count = 0
         for i in unicode_no_surrogate:
             count += 1
-            if six.PY2:
-                all_char += unichr(i)
-            else:
-                all_char += chr(i)
+            all_char += chr(i)
 
         with open(path_to_file_in_data_dir("allchars.wxf"), "rb") as r_file:
             ba = bytearray(r_file.read())

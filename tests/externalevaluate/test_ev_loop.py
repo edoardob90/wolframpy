@@ -7,7 +7,7 @@ import zmq
 from wolframclient.language import wl
 from wolframclient.serializers import export
 from wolframclient.utils.externalevaluate import start_zmq_loop
-from wolframclient.utils.tests import TestCase as BaseTestCase
+from unittest import TestCase as BaseTestCase
 
 
 def create_evaluation_command(

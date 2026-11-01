@@ -1,6 +1,3 @@
-// this json file is used by the test suite to connect to the Wolfram public cloud 
-// and to evaluate expressions to a local kernel. 
-// It's path is specified with the environment variable WOLFRAMCLIENT_PY_JSON_CONFIG
 {
     "kernel" : "/path/to/WolframKernel",
     "cloud_credentials" : {

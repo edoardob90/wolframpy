@@ -1,6 +1,9 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import logging
+from unittest import IsolatedAsyncioTestCase
+
+import pytest
 
 from wolframclient.deserializers import WXFConsumer, binary_deserialize
 from wolframclient.evaluation import (
@@ -11,40 +14,34 @@ from wolframclient.evaluation import (
 )
 from wolframclient.exception import WolframKernelException
 from wolframclient.language import wl, wlexpr
-from wolframclient.tests.configure import (
+from tests.configure import (
     kernel_path,
     secured_authentication_key,
     server,
-    skip_for_missing_config,
 )
-from wolframclient.tests.evaluation.test_kernel import TestCaseSettings as TestKernelBase
+from tests.evaluation.test_kernel import TestCaseSettings as TestKernelBase
 from wolframclient.utils import six
 from wolframclient.utils.api import asyncio, numpy, time
-from wolframclient.utils.asyncio import get_event_loop, run_in_loop
-from wolframclient.utils.tests import TestCase as BaseTestCase
+from unittest import TestCase as BaseTestCase
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-LOOP = get_event_loop()
+pytestmark = pytest.mark.kernel
 
 
-class TestCoroutineSession(BaseTestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.async_session = WolframLanguageAsyncSession(
+class TestCoroutineSession(IsolatedAsyncioTestCase):
+    async def asyncSetUp(self):
+        self.async_session = WolframLanguageAsyncSession(
             kernel_path, kernel_loglevel=logging.INFO
         )
-        cls.async_session.set_parameter("STARTUP_TIMEOUT", 5)
-        cls.async_session.set_parameter("TERMINATE_TIMEOUT", 3)
-        LOOP.run_until_complete(cls.async_session.start())
+        self.async_session.set_parameter("STARTUP_TIMEOUT", 5)
+        self.async_session.set_parameter("TERMINATE_TIMEOUT", 3)
+        await self.async_session.start()
 
-    @classmethod
-    def tearDownClass(cls):
-        if cls.async_session is not None:
-            LOOP.run_until_complete(cls.async_session.stop())
+    async def asyncTearDown(self):
+        await self.async_session.stop()
 
-    @run_in_loop
     async def test_eval_inputform(self):
         start = time.perf_counter()
         task = asyncio.create_task(self.async_session.evaluate(wlexpr("Pause[.1]; Range[3]")))
@@ -53,7 +50,6 @@ class TestCoroutineSession(BaseTestCase):
         res = await task
         numpy.assert_array_equal(res, numpy.arange(1, 4))
 
-    @run_in_loop
     async def test_eval_wlsymbol(self):
         start = time.perf_counter()
         task = asyncio.create_task(
@@ -64,7 +60,6 @@ class TestCoroutineSession(BaseTestCase):
         res = await task
         numpy.assert_array_equal(res, numpy.arange(1, 3))
 
-    @run_in_loop
     async def test_eval_wxf(self):
         start = time.perf_counter()
         task = asyncio.create_task(
@@ -76,7 +71,6 @@ class TestCoroutineSession(BaseTestCase):
         res = binary_deserialize(wxf)
         numpy.assert_array_equal(res, numpy.arange(1, 4))
 
-    @run_in_loop
     async def test_eval_wrap(self):
         start = time.perf_counter()
         task = asyncio.create_task(
@@ -87,14 +81,12 @@ class TestCoroutineSession(BaseTestCase):
         res = await task
         numpy.assert_array_equal(res.get(), numpy.arange(1, 4))
 
-    @run_in_loop
     async def test_eval_many(self):
         exprs = [("{}+{}".format(i, i)) for i in range(10)]
         expected = [i + i for i in range(10)]
         res = await self.async_session.evaluate_many(exprs)
         self.assertEqual(res, expected)
 
-    @run_in_loop
     async def test_eval_start(self):
         try:
             async_session = WolframLanguageAsyncSession(
@@ -106,13 +98,11 @@ class TestCoroutineSession(BaseTestCase):
             if async_session:
                 await async_session.terminate()
 
-    @run_in_loop
     async def test_eval_parallel(self):
         tasks = [asyncio.create_task(self.async_session.evaluate(i + 1)) for i in range(10)]
         res = await asyncio.gather(*tasks)
         self.assertEqual(res, list(range(1, 11)))
 
-    @run_in_loop
     async def test_quit_restart(self):
         try:
             async_session = WolframLanguageAsyncSession(
@@ -138,15 +128,16 @@ class TestCoroutineSession(BaseTestCase):
         TestKernelBase.class_bad_kwargs_parameters(self, WolframLanguageAsyncSession)
 
 
-class TestKernelPool(BaseTestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.pool = WolframEvaluatorPool(
+class TestKernelPool(IsolatedAsyncioTestCase):
+    async def asyncSetUp(self):
+        self.pool = WolframEvaluatorPool(
             kernel_path, kernel_loglevel=logging.INFO, STARTUP_TIMEOUT=5, TERMINATE_TIMEOUT=3
         )
-        LOOP.run_until_complete(cls.pool.start())
+        await self.pool.start()
 
-    @run_in_loop
+    async def asyncTearDown(self):
+        await self.pool.terminate()
+
     async def test_eval_wlsymbol(self):
         tasks = [
             asyncio.create_task(self.pool.evaluate(wl.FromLetterNumber(i)))
@@ -155,7 +146,6 @@ class TestKernelPool(BaseTestCase):
         res = await asyncio.gather(*tasks)
         self.assertEqual({*res}, {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"})
 
-    @run_in_loop
     async def test_eval_inputform(self):
         tasks = [
             asyncio.create_task(self.pool.evaluate(wlexpr("FromLetterNumber[%i]" % i)))
@@ -164,7 +154,6 @@ class TestKernelPool(BaseTestCase):
         res = await asyncio.gather(*tasks)
         self.assertEqual({*res}, {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"})
 
-    @run_in_loop
     async def test_eval_wxf(self):
         tasks = [
             asyncio.create_task(self.pool.evaluate_wxf(wlexpr("FromLetterNumber[%i]" % i)))
@@ -174,7 +163,6 @@ class TestKernelPool(BaseTestCase):
         res = {binary_deserialize(wxf, consumer=WXFConsumer()) for wxf in res}
         self.assertEqual(res, {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"})
 
-    @run_in_loop
     async def test_failed_expr(self):
         tasks = [
             asyncio.create_task(self.pool.evaluate(wlexpr("Pause[.1]; 1/0")))
@@ -183,7 +171,6 @@ class TestKernelPool(BaseTestCase):
         res = await asyncio.gather(*tasks)
         self.assertEqual(res, [wl.DirectedInfinity() for _ in range(1, 10)])
 
-    @run_in_loop
     async def test_pool_from_one_kernel(self):
         await self.pool.terminate()
         session = WolframLanguageAsyncSession(kernel_path)
@@ -202,9 +189,8 @@ class TestKernelPool(BaseTestCase):
         self.assertEqual({*res}, {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"})
 
 
-@skip_for_missing_config
+@pytest.mark.cloud
 class TestKernelCloudPool(TestKernelPool):
-    @run_in_loop
     async def test_pool_from_one_cloud(self):
 
         session = WolframCloudAsyncSession(
@@ -217,7 +203,6 @@ class TestKernelCloudPool(TestKernelPool):
         self.assertFalse(session.started)
         self.assertTrue(session.stopped)
 
-    @run_in_loop
     async def test_pool_from_mixed_kernel_cloud_path(self):
         await self.pool.terminate()
 
@@ -255,7 +240,7 @@ class TestParallelEvaluate(BaseTestCase):
         self.assertEqual(res, ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"])
 
 
-@skip_for_missing_config
+@pytest.mark.cloud
 class TestParallelEvaluateCloud(TestParallelEvaluate):
     def test_parallel_evaluate_cloud(self):
 

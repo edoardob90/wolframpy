@@ -9,17 +9,10 @@ from wolframclient.serializers.wxfencoder.streaming import (
     ZipCompressedWriter,
 )
 from wolframclient.utils import six
-from wolframclient.utils.tests import TestCase as BaseTestCase
+from unittest import TestCase as BaseTestCase
 
-if six.PY2:
-
-    def _bytes(value):
-        return chr(value)
-
-else:
-
-    def _bytes(value):
-        return bytes((value,))
+def _bytes(value):
+    return bytes((value,))
 
 
 class TestCase(BaseTestCase):

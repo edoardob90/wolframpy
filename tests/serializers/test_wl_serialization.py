@@ -14,8 +14,10 @@ from wolframclient.utils import six
 from wolframclient.utils.api import timezone
 from wolframclient.utils.datastructures import Association
 from wolframclient.utils.encoding import force_bytes, force_text
-from wolframclient.utils.tests import TestCase as BaseTestCase
-from wolframclient.utils.tests import path_to_file_in_data_dir
+from unittest import TestCase as BaseTestCase
+from tests.configure import path_to_file_in_data_dir
+
+PLUS_ONE_HOUR = datetime.timezone(datetime.timedelta(hours=1))
 
 
 @contextmanager
@@ -33,7 +35,7 @@ def with_version(n):
         del os.environ["WOLFRAM_KERNEL_VERSION"]
 
 
-def test_datetime():
+def sample_datetime():
     return datetime.datetime(year=2000, month=1, day=1, hour=11, minute=15, second=20)
 
 
@@ -95,34 +97,30 @@ class TestCase(BaseTestCase):
     def test_datetime(self):
 
         self.compare(
-            test_datetime(),
+            sample_datetime(),
             b'DateObject[{2000, 1, 1, 11, 15, 20.}, "Instant", "Gregorian", None]',
         )
 
         with with_version(11):
             self.compare(
-                test_datetime(),
+                sample_datetime(),
                 b'DateObject[{2000, 1, 1, 11, 15, 20.}, "Instant", "Gregorian", $TimeZone]',
             )
 
         self.compare(
-            timezone.FixedOffset(60).localize(test_datetime()),
+            sample_datetime().replace(tzinfo=PLUS_ONE_HOUR),
             b'DateObject[{2000, 1, 1, 11, 15, 20.}, "Instant", "Gregorian", 1.]',
-        )
-        self.compare(
-            timezone.timezone("Europe/Rome").localize(test_datetime()),
-            b'DateObject[{2000, 1, 1, 11, 15, 20.}, "Instant", "Gregorian", "Europe/Rome"]',
         )
 
         self.compare(
-            test_datetime().replace(tzinfo=timezone.ZoneInfo("Europe/Rome")),
+            sample_datetime().replace(tzinfo=timezone.ZoneInfo("Europe/Rome")),
             b'DateObject[{2000, 1, 1, 11, 15, 20.}, "Instant", "Gregorian", "Europe/Rome"]',
         )
 
     def test_date(self):
 
         self.compare(
-            test_datetime().date(), b'DateObject[{2000, 1, 1}, "Day", "Gregorian", None]'
+            sample_datetime().date(), b'DateObject[{2000, 1, 1}, "Day", "Gregorian", None]'
         )
 
     def test_timedelta(self):
@@ -131,9 +129,9 @@ class TestCase(BaseTestCase):
 
     def test_time(self):
 
-        self.compare(test_datetime().time(), b"TimeObject[{11, 15, 20.}]")
+        self.compare(sample_datetime().time(), b"TimeObject[{11, 15, 20.}]")
         self.compare(
-            timezone.timezone("Europe/Rome").localize(test_datetime()).timetz(),
+            sample_datetime().replace(tzinfo=PLUS_ONE_HOUR).timetz(),
             b"TimeObject[{11, 15, 20.}, TimeZone -> 1.]",
         )
 
@@ -145,14 +143,6 @@ class TestCase(BaseTestCase):
         self.compare(wl.System.Symbol(1, 2), b"System`Symbol[1, 2]")
         self.compare(wl.This.Thing.Just.Works, b"This`Thing`Just`Works")
         self.compare(wl.This.Thing.Just.Works(1, 2), b"This`Thing`Just`Works[1, 2]")
-
-    @unittest.skipIf(not six.PY2, "Python2 str test skipped.")
-    def test_all_str_py2(self):
-        str_all_chr = b"".join([chr(i) for i in range(256)])
-        wl_data = export(str_all_chr, target_format="wl")
-        with open(path_to_file_in_data_dir("allbytes.wl"), "rb") as r_file:
-            expected = bytearray(r_file.read())
-        self.assertSequenceEqual(wl_data, expected)
 
     def test_encoding(self):
 
@@ -189,10 +179,7 @@ class TestCase(BaseTestCase):
 
     def test_buffer(self):
 
-        if six.PY2:
-            self.compare(buffer(b"Hello world", 6, 5), b'ByteArray["d29ybGQ="]')
-        else:
-            self.compare(memoryview(b"Hello world"), b'ByteArray["SGVsbG8gd29ybGQ="]')
+        self.compare(memoryview(b"Hello world"), b'ByteArray["SGVsbG8gd29ybGQ="]')
 
     def test_hashing(self):
 

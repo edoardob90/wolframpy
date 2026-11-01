@@ -1,7 +1,7 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from wolframclient.serializers import export, wolfram_encoder
-from wolframclient.utils.tests import TestCase as BaseTestCase
+from unittest import TestCase as BaseTestCase
 
 
 class foo:

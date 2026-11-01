@@ -2,8 +2,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from wolframclient.serializers import export
 from wolframclient.utils.api import PIL, numpy
-from wolframclient.utils.tests import TestCase as BaseTestCase
-from wolframclient.utils.tests import path_to_file_in_data_dir
+from unittest import TestCase as BaseTestCase
+from tests.configure import path_to_file_in_data_dir
 
 
 class TestCase(BaseTestCase):
@@ -17,8 +17,9 @@ class TestCase(BaseTestCase):
             )
 
     def test_mode_L(self):
-        a = numpy.arange(10).reshape((2, 5)).astype(numpy.int8)
-        img = PIL.fromarray(a, mode="L")
+        a = numpy.arange(10).reshape((2, 5)).astype(numpy.uint8)
+        img = PIL.fromarray(a)
+        self.assertEqual(img.mode, "L")
         out = export(img, target_format="wl")
         self.assertEqual(
             out,

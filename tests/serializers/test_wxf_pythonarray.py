@@ -5,7 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 from wolframclient.language.array import NumericArray
 from wolframclient.serializers import export
 from wolframclient.utils.api import numpy
-from wolframclient.utils.tests import TestCase as BaseTestCase
+from unittest import TestCase as BaseTestCase
 
 
 class TestCase(BaseTestCase):

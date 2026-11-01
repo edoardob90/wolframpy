@@ -1,7 +1,7 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from wolframclient.utils.logger import str_trim
-from wolframclient.utils.tests import TestCase as BaseTestCase
+from unittest import TestCase as BaseTestCase
 
 
 class TestCase(BaseTestCase):

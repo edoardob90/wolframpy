@@ -2,7 +2,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from wolframclient.serializers import export
 from wolframclient.utils.api import pandas
-from wolframclient.utils.tests import TestCase as BaseTestCase
+from unittest import TestCase as BaseTestCase
 
 TEST_CASES = [
     "pandas.Series([1, 2, 3])",
@@ -47,11 +47,13 @@ class TestCase(BaseTestCase):
 
     def test_serialization_works(self):
         """Test that export works for all cases."""
+        import pandas as pd
+
         for python_expr in TEST_CASES:
             with self.subTest(expr=python_expr):
                 data = eval(
                     python_expr,
-                    {"pandas": pandas, "float": float, "list": list, "range": range},
+                    {"pandas": pd, "float": float, "list": list, "range": range},
                 )
                 export(data, target_format="wl")
                 export(data, target_format="wxf")

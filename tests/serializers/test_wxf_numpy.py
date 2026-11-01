@@ -6,14 +6,12 @@ from wolframclient.serializers.wxfencoder.serializer import WXFExprSerializer
 from wolframclient.serializers.wxfencoder.wxfencoder import DefaultWXFEncoder
 from wolframclient.serializers.wxfencoder.wxfexprprovider import WXFExprProvider
 from wolframclient.serializers.wxfencoder.wxfnumpyencoder import NumPyWXFEncoder
-from wolframclient.tests.configure import skip_for_jython
 from wolframclient.utils import six
 from wolframclient.utils.api import numpy
 from wolframclient.utils.encoding import force_text
-from wolframclient.utils.tests import TestCase as BaseTestCase
+from unittest import TestCase as BaseTestCase
 
 
-@skip_for_jython  # numpy is not supported in jython
 class TestCase(BaseTestCase):
     @classmethod
     def initDefault(cls):

@@ -5,7 +5,7 @@ from wolframclient.utils import six
 from wolframclient.utils.dispatch import Dispatch
 from wolframclient.utils.encoding import force_bytes, force_text
 from wolframclient.utils.functional import composition, flatten, iterate, partition, riffle
-from wolframclient.utils.tests import TestCase as BaseTestCase
+from unittest import TestCase as BaseTestCase
 
 
 class TestCase(BaseTestCase):

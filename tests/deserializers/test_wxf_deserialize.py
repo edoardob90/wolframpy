@@ -15,11 +15,10 @@ from wolframclient.deserializers.wxf.wxfparser import parse_varint
 from wolframclient.exception import WolframParserException
 from wolframclient.serializers import export
 from wolframclient.serializers.wxfencoder.utils import write_varint
-from wolframclient.tests.configure import skip_for_jython
 from wolframclient.utils import six
 from wolframclient.utils.api import numpy
 from wolframclient.utils.datastructures import immutabledict
-from wolframclient.utils.tests import TestCase as BaseTestCase
+from unittest import TestCase as BaseTestCase
 
 
 class TestCase(BaseTestCase):
@@ -83,7 +82,7 @@ class TestCase(BaseTestCase):
 
     def test_max_3bytes_unicode(self):
         max = (1 << 16) - 1
-        value = unichr(max) if six.PY2 else chr(max)
+        value = chr(max)
         self.wxf_assert_roundtrip(value)
 
     def test_all_char(self):
@@ -94,10 +93,7 @@ class TestCase(BaseTestCase):
         count = 0
         for i in unicode_no_surrogate:
             count += 1
-            if six.PY2:
-                all_char += unichr(i)
-            else:
-                all_char += chr(i)
+            all_char += chr(i)
         path = os.path.dirname(__file__)
         path = os.path.join(path, "..", "data", "allchars.wxf")
 
@@ -106,27 +102,22 @@ class TestCase(BaseTestCase):
         self.assertEqual(res, all_char)
 
     ### INTEGER TESTS
-    @skip_for_jython
     def test_integer8(self):
         value = (0, 1, 127, -1, -128)
         self.wxf_assert_roundtrip(value)
 
-    @skip_for_jython
     def test_int16(self):
         value = (-(1 << 15), (1 << 15) - 1)
         self.wxf_assert_roundtrip(value)
 
-    @skip_for_jython
     def test_int32(self):
         value = (-(1 << 31), (1 << 31) - 1)
         self.wxf_assert_roundtrip(value)
 
-    @skip_for_jython
     def test_int64(self):
         value = (-(1 << 63), (1 << 63) - 1)
         self.wxf_assert_roundtrip(value)
 
-    @skip_for_jython
     def test_bigint_as_int(self):
         value = 10**20
         self.wxf_assert_roundtrip(value)
@@ -243,7 +234,6 @@ class TestCase(BaseTestCase):
             binary_deserialize(wxf, consumer=WXFConsumer())
 
 
-@skip_for_jython
 class TestCaseNumPyArray(BaseTestCase):
     def test_numpy_1d_array(self):
         arr = numpy.array([0, 1], "uint8")
