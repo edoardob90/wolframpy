@@ -1,14 +1,12 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import os
+from unittest import TestCase as BaseTestCase
 
+from tests.configure import dir_test_data
 from wolframclient.serializers.wxfencoder.serializer import WXFExprSerializer
 from wolframclient.serializers.wxfencoder.wxfencoder import WXFEncoder
 from wolframclient.serializers.wxfencoder.wxfexpr import WXFExprFunction, WXFExprSymbol
 from wolframclient.serializers.wxfencoder.wxfexprprovider import WXFExprProvider
-from tests.configure import dir_test_data
 from wolframclient.utils import six
-from unittest import TestCase as BaseTestCase
 
 
 class MyClass:

@@ -1,7 +1,6 @@
-from __future__ import absolute_import, print_function, unicode_literals, with_statement
-
 import random
 import zlib
+from unittest import TestCase as BaseTestCase
 
 from wolframclient.serializers.wxfencoder.streaming import (
     ExactSizeReader,
@@ -9,7 +8,7 @@ from wolframclient.serializers.wxfencoder.streaming import (
     ZipCompressedWriter,
 )
 from wolframclient.utils import six
-from unittest import TestCase as BaseTestCase
+
 
 def _bytes(value):
     return bytes((value,))

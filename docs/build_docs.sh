@@ -3,20 +3,20 @@
 #> Wolfram Python documentation build script. (UNIX only)
 #> This script builds the documentation static webpages from restructured files,
 #> using sphinx make.
-#> 
+#>
 #> OPTIONS:
-#> 
+#>
 #>     -b path, --build=path
 #>         set the output directory to path. It must be a valid directory.
-#>         BUILDDIR is set to path if specified, otherwise the default 
+#>         BUILDDIR is set to path if specified, otherwise the default
 #>         directory _build is used.
-#> 
+#>
 #>     -a, --all
 #>         rebuild from scratch. Call `make clean` and remove the api directory.
 #>         Useful when the codebase has changed and some source files were removed.
-#> 
+#>
 #>     -h display this page.
-#> 
+#>
 
 function help(){
     less $0 | grep -e "^#>" | sed 's/^#> \(.*\)$/\1/g'
@@ -45,7 +45,7 @@ if [[ ! -z "${target}" ]]; then
     if [[ ! -d "${target}" ]]; then
         echo "Invalid build directory: ${target}"
         exit 1
-    fi 
+    fi
     # normalize path
     target="`dirname \"${target}\"`/`basename \"${target}\"`"
 fi

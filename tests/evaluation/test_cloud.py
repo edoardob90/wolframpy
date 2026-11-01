@@ -1,10 +1,15 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import logging
+import os
+from unittest import TestCase as BaseTestCase
 
 import pytest
-import os
 
+from tests.configure import (
+    api_owner,
+    secured_authentication_key,
+    server,
+    user_configuration,
+)
 from wolframclient.evaluation.cloud.base import SecuredAuthenticationKey
 from wolframclient.evaluation.cloud.cloudsession import (
     WolframAPICall,
@@ -14,16 +19,9 @@ from wolframclient.evaluation.cloud.cloudsession import (
 from wolframclient.exception import AuthenticationException, WolframLanguageException
 from wolframclient.language import wl
 from wolframclient.language.expression import WLFunction
-from tests.configure import (
-    api_owner,
-    secured_authentication_key,
-    server,
-    user_configuration,
-)
 from wolframclient.utils import six
 from wolframclient.utils.api import numpy
 from wolframclient.utils.encoding import force_text
-from unittest import TestCase as BaseTestCase
 from wolframclient.utils.url import url_join
 
 pytestmark = pytest.mark.cloud

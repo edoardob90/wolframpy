@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import os
 import sys
 
@@ -9,7 +7,6 @@ from wolframclient.utils.api import zmq
 
 
 class Command(SimpleCommand):
-
     dependencies = ()
 
     def add_arguments(self, parser):

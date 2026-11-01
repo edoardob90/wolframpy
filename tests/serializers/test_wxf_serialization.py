@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, print_function, unicode_literals
-
 import decimal
-import unittest
 from collections import OrderedDict
+from unittest import TestCase as BaseTestCase
 
+from tests.configure import path_to_file_in_data_dir
 from wolframclient.language import wl, wlexpr
 from wolframclient.serializers import export
 from wolframclient.serializers.wxfencoder.serializer import WXFExprSerializer
@@ -18,8 +15,6 @@ from wolframclient.serializers.wxfencoder.wxfexpr import (
 from wolframclient.serializers.wxfencoder.wxfexprprovider import WXFExprProvider
 from wolframclient.utils import six
 from wolframclient.utils.datastructures import Association
-from unittest import TestCase as BaseTestCase
-from tests.configure import path_to_file_in_data_dir
 
 
 def init(compress=False, enforce=True):

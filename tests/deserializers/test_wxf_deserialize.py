@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, print_function, unicode_literals
-
 import decimal
 import os
+from unittest import TestCase as BaseTestCase
 
 from wolframclient.deserializers import (
     WXFConsumer,
@@ -18,7 +15,6 @@ from wolframclient.serializers.wxfencoder.utils import write_varint
 from wolframclient.utils import six
 from wolframclient.utils.api import numpy
 from wolframclient.utils.datastructures import immutabledict
-from unittest import TestCase as BaseTestCase
 
 
 class TestCase(BaseTestCase):

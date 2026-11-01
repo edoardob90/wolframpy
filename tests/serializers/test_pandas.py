@@ -1,8 +1,6 @@
-from __future__ import absolute_import, print_function, unicode_literals
+from unittest import TestCase as BaseTestCase
 
 from wolframclient.serializers import export
-from wolframclient.utils.api import pandas
-from unittest import TestCase as BaseTestCase
 
 TEST_CASES = [
     "pandas.Series([1, 2, 3])",

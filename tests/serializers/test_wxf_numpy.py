@@ -1,4 +1,4 @@
-from __future__ import absolute_import, print_function, unicode_literals
+from unittest import TestCase as BaseTestCase
 
 from wolframclient.serializers import export
 from wolframclient.serializers.encoders.numpy import to_little_endian
@@ -9,7 +9,6 @@ from wolframclient.serializers.wxfencoder.wxfnumpyencoder import NumPyWXFEncoder
 from wolframclient.utils import six
 from wolframclient.utils.api import numpy
 from wolframclient.utils.encoding import force_text
-from unittest import TestCase as BaseTestCase
 
 
 class TestCase(BaseTestCase):

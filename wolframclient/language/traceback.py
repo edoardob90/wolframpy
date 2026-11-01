@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import re
 
 from wolframclient.language import wl
@@ -147,7 +145,6 @@ def _get_traceback_frames(traceback, exc_value, context_lines=7):
 
     # No exceptions were supplied to ExceptionReporter
     if exceptions:
-
         # In case there's just one exception, take the traceback from self.tb
         exc_value = exceptions.pop()
         tb = traceback if not exceptions else exc_value.__traceback__

@@ -1,13 +1,11 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import os
 import tempfile
+from unittest import TestCase as BaseTestCase
 
 from wolframclient.language import wl
 from wolframclient.serializers import available_formats, export
 from wolframclient.utils import six
 from wolframclient.utils.functional import identity
-from unittest import TestCase as BaseTestCase
 
 
 class TestCase(BaseTestCase):
@@ -23,9 +21,7 @@ class TestCase(BaseTestCase):
         os.close(fd)
 
         for test in ["foo", wl.Symbol, {"a": [1, 2, 3], 2: 2}]:
-
             for export_format in available_formats:
-
                 expected = export(test, target_format=export_format)
 
                 # checking that export is able to write to a path if a string is provided
@@ -77,7 +73,6 @@ class TestCase(BaseTestCase):
         ]
 
         for export_format in available_formats:
-
             with self.assertRaises(NotImplementedError):
                 export(expr, normalizer=identity, target_format=export_format)
 

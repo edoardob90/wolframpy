@@ -1,20 +1,17 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import logging
-
-import pytest
 from concurrent.futures import TimeoutError
 from time import time
+from unittest import TestCase as BaseTestCase
 
+import pytest
+
+from tests.configure import kernel_path, path_to_file_in_data_dir
 from wolframclient.deserializers import WXFConsumer, binary_deserialize
 from wolframclient.evaluation import WolframLanguageSession
 from wolframclient.exception import WolframKernelException
 from wolframclient.language import wl, wlexpr
 from wolframclient.language.expression import WLFunction, WLSymbol
-from tests.configure import kernel_path
 from wolframclient.utils.api import PIL
-from unittest import TestCase as BaseTestCase
-from tests.configure import path_to_file_in_data_dir
 
 pytestmark = pytest.mark.kernel
 

@@ -10,7 +10,7 @@
 - fix various deprecated naming convention in class names.
 
 # Version 1.1.4
-- Async cloud evaluator based on `aiohttp` now use `certifi` to create a default `SSLContext` if none is provided. Other cloud evaluator are based on the `requests` module which also uses this library. 
+- Async cloud evaluator based on `aiohttp` now use `certifi` to create a default `SSLContext` if none is provided. Other cloud evaluator are based on the `requests` module which also uses this library.
 - Updating dependency list accordingly in `setup.py`. `certifi` was already listed as a `requests` dependency, so this should have no direct impact on user site package.
 
 # Version 1.1.3
@@ -25,7 +25,7 @@
 - WXF deserialization maps `List` to `tuple`, was `list` before for two reasons. `List` and tuple are immutable. `tuple` contrary to `list` are hashable object and as such can be keys in `dict`.
 - WXF deserialization maps numeric arrays to `NumPy` arrays. Numpy being a pre-requisite of the library, and lazily loaded, this change will boost performances while causing very little trouble, if any.
 - Fix bug in `WolframLanguageSession` that was preventing Python interpreter from exiting.
-- Add new class `PackedArray`, a wrapper on top of NumPy `ndarray`. Instances of `PackedArray` are serialized as... WL packed array (!). This fixes the issue of having a WL packed array (say the output of `Range[3]`), being serialized to a `ndarray` (`arange(3)`), and send back to the kernel as a `NumericArray`. 
+- Add new class `PackedArray`, a wrapper on top of NumPy `ndarray`. Instances of `PackedArray` are serialized as... WL packed array (!). This fixes the issue of having a WL packed array (say the output of `Range[3]`), being serialized to a `ndarray` (`arange(3)`), and send back to the kernel as a `NumericArray`.
 - Use `black` code formatter.
 
 # Version 1.0.2

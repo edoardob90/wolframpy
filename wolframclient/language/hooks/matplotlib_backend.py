@@ -11,11 +11,13 @@ Usage:
 """
 
 import io
-from matplotlib.backend_bases import FigureCanvasBase, FigureManagerBase
-from matplotlib.backends.backend_agg import FigureCanvasAgg
+
 from matplotlib._pylab_helpers import Gcf
+from matplotlib.backend_bases import FigureManagerBase
+from matplotlib.backends.backend_agg import FigureCanvasAgg
+
+from wolframclient.language import wl
 from wolframclient.language.side_effects import wl_print
-from wolframclient.language import wl, wlexpr
 
 
 class FigureCanvas(FigureCanvasAgg):
@@ -23,7 +25,6 @@ class FigureCanvas(FigureCanvasAgg):
 
 
 class FigureManager(FigureManagerBase):
-
     @classmethod
     def pyplot_show(cls, *, block=None):
         for manager in Gcf.get_all_fig_managers():

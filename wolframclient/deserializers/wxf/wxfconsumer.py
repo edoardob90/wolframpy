@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import decimal
 import re
 
@@ -171,7 +169,6 @@ class WXFConsumer:
         match = self.BIGREAL_RE.match(current_token.data)
 
         if match:
-
             num, _, _, exp = match.groups()
 
             if exp:

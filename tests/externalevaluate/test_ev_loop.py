@@ -1,13 +1,11 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 from threading import Thread
+from unittest import TestCase as BaseTestCase
 
 import zmq
 
 from wolframclient.language import wl
 from wolframclient.serializers import export
 from wolframclient.utils.externalevaluate import start_zmq_loop
-from unittest import TestCase as BaseTestCase
 
 
 def create_evaluation_command(
@@ -17,7 +15,6 @@ def create_evaluation_command(
 
 
 class TestCase(BaseTestCase):
-
     starting_port = 9000
 
     def compare(self, string_version, result):
@@ -35,7 +32,6 @@ class TestCase(BaseTestCase):
         client.connect("tcp://127.0.0.1:%s" % port)
 
         for message, context, result in messages:
-
             client.send(
                 export(create_evaluation_command(message, context), target_format="wxf")
             )

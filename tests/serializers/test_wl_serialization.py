@@ -1,12 +1,10 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import datetime
 import decimal
 import fractions
 import os
-import unittest
 from collections import OrderedDict
 from contextlib import contextmanager
+from unittest import TestCase as BaseTestCase
 
 from wolframclient.language import Global, System, wl, wlexpr
 from wolframclient.serializers import export
@@ -14,8 +12,6 @@ from wolframclient.utils import six
 from wolframclient.utils.api import timezone
 from wolframclient.utils.datastructures import Association
 from wolframclient.utils.encoding import force_bytes, force_text
-from unittest import TestCase as BaseTestCase
-from tests.configure import path_to_file_in_data_dir
 
 PLUS_ONE_HOUR = datetime.timezone(datetime.timedelta(hours=1))
 

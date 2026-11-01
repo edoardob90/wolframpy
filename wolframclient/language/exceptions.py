@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 from wolframclient.language import wl
 from wolframclient.serializers.serializable import WLSerializable
 from wolframclient.utils.decorators import to_dict
@@ -66,7 +64,6 @@ class WolframLanguageException(WLSerializable, Exception):
             yield "FailureCode", code
 
         if self.show_traceback() and self.tb:
-
             from wolframclient.language.traceback import serialize_traceback
 
             yield "Traceback", serialize_traceback(self.exc_type, self.exc_value, self.tb)

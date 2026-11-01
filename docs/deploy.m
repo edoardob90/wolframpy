@@ -3,14 +3,14 @@
 ClearAll[DeployDocumentation];
 DeployDocumentation[root_String, target_String, setperm : True | False : False] := (
   Parallelize@Scan[
-   With[{relpath = 
+   With[{relpath =
        First@StringCases[#, root ~~ "/" ... ~~ relative__ :> relative,
           1]},
      PrintTemporary["Copying " <> relpath];
-     CopyFile[#, CloudObject[FileNameJoin[{target,relpath}]], 
+     CopyFile[#, CloudObject[FileNameJoin[{target,relpath}]],
       OverwriteTarget -> True];
      If[setperm,
-      SetOptions[CloudObject[FileNameJoin[{target,relpath}]], 
+      SetOptions[CloudObject[FileNameJoin[{target,relpath}]],
        Permissions -> "Public"]
       ];
      ]

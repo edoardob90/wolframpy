@@ -82,11 +82,11 @@ setLogLevel[level_Integer] /; $DEBUG <= level <= $ERROR := If[
 setLogLevel[$NOTSET] := ($LogLevel = $NOTSET);
 
 
-log[level_Integer, msg_String] /; level >= $LogLevel  := If[$LoggerSocket =!= None, 
+log[level_Integer, msg_String] /; level >= $LogLevel  := If[$LoggerSocket =!= None,
    SocketWriteByteArrayFunc[
 		$LoggerSocket,
 		StringToByteArray[
-			Developer`WriteRawJSONString[<|"msg" -> msg, "level" -> level|>, 
+			Developer`WriteRawJSONString[<|"msg" -> msg, "level" -> level|>,
 			"ToByteString" -> True, "Compact" -> True],
 			"ISOLatin1"
 		]
@@ -94,7 +94,7 @@ log[level_Integer, msg_String] /; level >= $LogLevel  := If[$LoggerSocket =!= No
 ];
 
 log[level_Integer, args__] /; level >= $LogLevel := log[
-   level, 
+   level,
    StringJoin[
 		StringRiffle[
 			Map[format, {args}],
@@ -136,7 +136,7 @@ SetAttributes[fmtmsg, HoldRest];
 fmtmsg[msg_String, args___] := TemplateApply[msg, {args}];
 
 fmtmsg[msg_MessageName, args___] := Module[
-	{genmsg = MessageName[General, Last@msg]}, 
+	{genmsg = MessageName[General, Last@msg]},
 	If[StringQ[genmsg],
 		fmtmsg[genmsg, args],
 		TemplateApply["Undefined message `` with arguments ``", {msg, {args}}]
@@ -144,7 +144,7 @@ fmtmsg[msg_MessageName, args___] := Module[
 ];
 
 fmtmsg[msg_, args___] := TemplateApply[
-	"Invalid message `` with arguments ``", 
+	"Invalid message `` with arguments ``",
 	{ToString[Unevaluated[msg]], {args}}];
 
 fmtmsg[Hold[Message[msg_MessageName, args___], ___]] := fmtmsg[msg, args];
@@ -241,7 +241,7 @@ Which[
 	];
 	*)
 ];
-(* can be useful for loopback connections which are available only if a task can be used. 
+(* can be useful for loopback connections which are available only if a task can be used.
 Does not kill the kernel *)
 ClientLibrary`disconnect[] := Quit[];
 ClientLibrary`disconnect[] /; ($SocketListener =!= None) := (

@@ -1,10 +1,15 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import logging
 from unittest import IsolatedAsyncioTestCase
+from unittest import TestCase as BaseTestCase
 
 import pytest
 
+from tests.configure import (
+    kernel_path,
+    secured_authentication_key,
+    server,
+)
+from tests.evaluation.test_kernel import TestCaseSettings as TestKernelBase
 from wolframclient.deserializers import WXFConsumer, binary_deserialize
 from wolframclient.evaluation import (
     WolframCloudAsyncSession,
@@ -14,15 +19,8 @@ from wolframclient.evaluation import (
 )
 from wolframclient.exception import WolframKernelException
 from wolframclient.language import wl, wlexpr
-from tests.configure import (
-    kernel_path,
-    secured_authentication_key,
-    server,
-)
-from tests.evaluation.test_kernel import TestCaseSettings as TestKernelBase
 from wolframclient.utils import six
 from wolframclient.utils.api import asyncio, numpy, time
-from unittest import TestCase as BaseTestCase
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)

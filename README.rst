@@ -33,7 +33,7 @@ Links
 Project Information
 #########################
 
-Licencing 
+Licencing
 =============
 
 This project is released under the MIT licence.

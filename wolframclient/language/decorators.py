@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import sys
 import traceback
 from functools import wraps
@@ -22,7 +20,6 @@ def safe_wl_execute(function, args=(), opts={}, export_opts={}, exception_class=
     except Exception as export_exception:
         try:
             try:
-
                 # The user can provide an exception class, and it can be broken, in which case we are running another
                 # try / except to return errors that are happening during class serialization
 
@@ -51,7 +48,6 @@ def safe_wl_execute(function, args=(), opts={}, export_opts={}, exception_class=
                 )
 
         except Exception as unknown_exception:
-
             # This is the last resort.
             # Everything went wrong, including the code that was supposed to return a traceback, or the custom
             # normalizer is doing something it should not. This should never happen.

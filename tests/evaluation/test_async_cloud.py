@@ -1,11 +1,16 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import asyncio
 import logging
+import os
+from unittest import TestCase as BaseTestCase
 
 import pytest
-import os
 
+from tests.configure import (
+    api_owner,
+    secured_authentication_key,
+    server,
+    user_configuration,
+)
 from wolframclient.evaluation.cloud.asynccloudsession import (
     WolframAPICallAsync,
     WolframCloudAsyncSession,
@@ -18,16 +23,9 @@ from wolframclient.exception import (
 )
 from wolframclient.language import wl
 from wolframclient.language.expression import WLFunction
-from tests.configure import (
-    api_owner,
-    secured_authentication_key,
-    server,
-    user_configuration,
-)
 from wolframclient.utils.api import numpy
 from wolframclient.utils.asyncio import run_in_loop
 from wolframclient.utils.encoding import force_text
-from unittest import TestCase as BaseTestCase
 
 pytestmark = pytest.mark.cloud
 

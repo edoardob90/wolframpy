@@ -1,16 +1,14 @@
-from __future__ import absolute_import, print_function, unicode_literals
+from unittest import TestCase as BaseTestCase
 
+from tests.configure import path_to_file_in_data_dir
 from wolframclient.serializers import export
 from wolframclient.utils.api import PIL, numpy
-from unittest import TestCase as BaseTestCase
-from tests.configure import path_to_file_in_data_dir
 
 
 class TestCase(BaseTestCase):
     def test_png_mode_I(self):
 
         with PIL.open(path_to_file_in_data_dir("5x2.png")) as image:
-
             self.assertEqual(
                 export(image, target_format="wl"),
                 b'ImportByteArray[ByteArray["iVBORw0KGgoAAAANSUhEUgAAAAUAAAACEAAAAADlkZXCAAAAH0lEQVR4nGP0+P39rf6+ky9/R7Aoen2+9shDWSRCHwCO7ws73c3PRQAAAABJRU5ErkJggg=="], "PNG"]',

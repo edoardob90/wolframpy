@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 from itertools import chain, starmap
 
 from wolframclient.serializers.base import FormatSerializer
@@ -61,7 +59,6 @@ class WXFSerializer(FormatSerializer):
     def generate_bytes(self, data):
 
         if self.compress:
-
             return chain(
                 (WXF_VERSION, WXF_HEADER_COMPRESS, WXF_HEADER_SEPARATOR),
                 compress(self.encode(data)),

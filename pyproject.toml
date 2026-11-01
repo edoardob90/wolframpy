@@ -100,3 +100,60 @@ docs = [
     "pygments-mathematica>=0.4.2",
     "sphinx>=7.3",
 ]
+
+[tool.ruff]
+line-length = 95
+target-version = "py312"
+extend-exclude = ["docs/roles", "docs/wri_theme"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+ignore = [
+    # Carried over from the old `wolframclient refactor` command.
+    "E501",   # line length is the formatter's job
+    "E731",   # lambda assignment
+    "SIM105", # contextlib.suppress
+    "SIM118", # `key in dict.keys()`
+    "B006",   # mutable argument defaults (real bugs, fixed in Phase 2)
+    # Style debt left by the Phase 1 mechanical pass, cleaned up later (see
+    # docs/MODERNIZATION_PLAN.md). Remove each line when its phase lands.
+    "UP031",  # printf-style formatting -> f-strings (Phase 2)
+    "UP032",  # .format() -> f-strings (Phase 2)
+    "B904",   # raise ... from inside except (Phase 2)
+    "B905",   # zip() without strict= (Phase 2)
+    "RUF012", # mutable class attributes need ClassVar (Phase 4, typing)
+    "RUF021", # parenthesize chained and/or (Phase 2)
+    "RUF022", # unsorted __all__ (Phase 4)
+    "RUF023", # unsorted __slots__ (Phase 4)
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Existing findings that point at likely bugs or dead code. Each one is pinned to the
+# file it occurs in so new code is still checked; fix and remove in Phase 2.
+"tests/deserializers/test_wxf_deserialize.py" = ["B018", "SIM113"]
+"tests/evaluation/test_async_cloud.py" = ["F811"]
+"tests/evaluation/test_cloud.py" = ["F811"]
+"tests/evaluation/test_kernel.py" = ["SIM117"]
+"tests/externalevaluate/test_ev_loop.py" = ["B008"]
+"tests/serializers/test_wxf_serialization.py" = ["SIM113"]
+"tests/test_core_functions.py" = ["F811"]
+"wolframclient/cli/commands/start_externalevaluate.py" = ["B018"]
+"wolframclient/cli/utils.py" = ["B020"]
+"wolframclient/deserializers/__init__.py" = ["RUF068"]
+"wolframclient/deserializers/wxf/wxfparser.py" = ["RUF059"]
+"wolframclient/evaluation/__init__.py" = ["RUF068"]
+"wolframclient/evaluation/cloud/asyncoauth.py" = ["E722", "SIM108"]
+"wolframclient/evaluation/cloud/base.py" = ["E722"]
+"wolframclient/evaluation/kernel/kernelcontroller.py" = ["E722"]
+"wolframclient/evaluation/result.py" = ["F811"]
+"wolframclient/language/traceback.py" = ["E741"]
+"wolframclient/serializers/encoders/builtin.py" = ["F811"]
+"wolframclient/serializers/encoders/numpy.py" = ["F811", "SIM108"]
+"wolframclient/serializers/utils.py" = ["B008"]
+"wolframclient/utils/datastructures.py" = ["F821"]
+"wolframclient/utils/encoding.py" = ["F811"]
+"wolframclient/utils/lock.py" = ["B028"]
+"wolframclient/utils/six.py" = ["F821"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["wolframclient", "tests"]

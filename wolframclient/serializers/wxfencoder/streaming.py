@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 from wolframclient.utils.api import zlib
 from wolframclient.utils.decorators import decorate
 from wolframclient.utils.encoding import concatenate_bytes, force_bytes

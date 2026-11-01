@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 import decimal
 import os
 import tempfile
@@ -20,7 +18,6 @@ def repeat(el, n=1):
 
 
 class Command(SimpleCommand):
-
     col_size = 8
     title_size = 14
     repetitions = 10
@@ -68,8 +65,12 @@ class Command(SimpleCommand):
 
     def stream_generators(self, path):
         yield "Memory", lambda complexity, export_format, path=path: None
-        yield "File", lambda complexity, export_format, path=path: os.path.join(
-            path, "benchmark-test-{}.{}".format(force_text(complexity).zfill(7), export_format)
+        yield (
+            "File",
+            lambda complexity, export_format, path=path: os.path.join(
+                path,
+                "benchmark-test-{}.{}".format(force_text(complexity).zfill(7), export_format),
+            ),
         )
 
     def report(self):
@@ -93,7 +94,6 @@ class Command(SimpleCommand):
         self.table_divider(len(self.complexity) + 1)
 
         for label, opts in (("wxf", {}), ("wxf zip", {"compress": True})):
-
             self.table_line(
                 label,
                 *(
@@ -110,7 +110,6 @@ class Command(SimpleCommand):
         self.table_line()
 
         for title, stream_generator in self.stream_generators(path):
-
             self.table_line(
                 title, *(force_text(c).ljust(self.col_size) for c in self.complexity)
             )

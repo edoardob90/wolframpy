@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 from wolframclient.utils.api import aiohttp, requests
 from wolframclient.utils.encoding import force_text
 
@@ -47,7 +45,6 @@ class RequestsHTTPRequestAdapter(HTTPResponseAdapterBase):
 
 
 class AIOHttpHTTPRequestAdapter(HTTPResponseAdapterBase):
-
     asynchronous = True
 
     def status(self):

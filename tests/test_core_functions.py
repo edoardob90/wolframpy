@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function, unicode_literals
+from unittest import TestCase as BaseTestCase
 
 from wolframclient.utils import six
 from wolframclient.utils.dispatch import Dispatch
 from wolframclient.utils.encoding import force_bytes, force_text
 from wolframclient.utils.functional import composition, flatten, iterate, partition, riffle
-from unittest import TestCase as BaseTestCase
 
 
 class TestCase(BaseTestCase):
